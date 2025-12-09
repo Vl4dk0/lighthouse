@@ -1,10 +1,61 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { EventCard } from "./EventCard";
+import { api } from "~/trpc/react";
+import { Plus, X } from "lucide-react";
 
-export function Calendar() {
+interface CalendarProps {
+    username: string;
+}
+
+export function Calendar({ username }: CalendarProps) {
     const [view, setView] = useState<"Deň" | "Týždeň" | "Mesiac">("Týždeň");
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    // Form state
+    const titleRef = useRef<HTMLInputElement>(null);
+    const typeRef = useRef<HTMLInputElement>(null);
+    const dayRef = useRef<HTMLSelectElement>(null);
+    const startRef = useRef<HTMLSelectElement>(null);
+    const endRef = useRef<HTMLSelectElement>(null);
+
+    const utils = api.useUtils();
+    const { data: schedule, isLoading } = api.schedule.getCurrent.useQuery({ username });
+    const createEvent = api.schedule.addEvent.useMutation({
+        onSuccess: async () => {
+            await utils.schedule.getCurrent.invalidate();
+            setIsModalOpen(false);
+        }
+    });
+
+    const deleteEvent = api.schedule.deleteEvent.useMutation({
+        onSuccess: async () => {
+            await utils.schedule.getCurrent.invalidate();
+        }
+    });
+
+    const handleDelete = (id: string) => {
+        if (confirm("Naozaj chcete odstrániť tento predmet?")) {
+            deleteEvent.mutate({ id });
+        }
+    }
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!schedule) return;
+
+        createEvent.mutate({
+            scheduleId: schedule.id,
+            title: titleRef.current?.value ?? "",
+            type: typeRef.current?.value ?? "",
+            day: dayRef.current?.value ?? "Pondelok",
+            startTime: startRef.current?.value ?? "",
+            endTime: endRef.current?.value ?? "",
+            color: "sky", // Default for now
+            location: "Unknown"
+        });
+    };
 
     const hours = [
         "7:00",
@@ -16,9 +67,10 @@ export function Calendar() {
 
     const days = ["Pondelok", "Utorok", "Streda", "Štvrtok", "Piatok", "Sobota", "Nedeľa"];
 
+    if (isLoading) return <div className="p-10">Načítavam rozvrh...</div>;
+
     return (
-        <div className="flex flex-col h-full bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
-            {/* Calendar Controls */}
+        <div className="flex flex-col h-full bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 relative">
             <div className="flex items-center justify-between p-4 border-b border-gray-100">
                 <div className="flex rounded-md border border-gray-200 bg-white p-1">
                     <button className="rounded px-4 py-1.5 text-sm font-medium hover:bg-gray-50 text-gray-700">Dnes</button>
@@ -27,35 +79,42 @@ export function Calendar() {
                 </div>
 
                 <span className="text-sm font-medium text-gray-600">
-                    1 September 2026 - 8 September 2026
+                    {schedule?.name ?? "Rozvrh"}
                 </span>
 
-                <div className="flex rounded-md border border-gray-200 bg-white p-1 shadow-sm">
+                <div className="flex items-center gap-2">
                     <button
-                        onClick={() => setView("Mesiac")}
-                        className={`rounded px-4 py-1.5 text-sm font-medium transition ${view === "Mesiac" ? "bg-black text-white" : "text-gray-700 hover:bg-gray-50"}`}
+                        onClick={() => setIsModalOpen(true)}
+                        className="flex items-center gap-2 rounded bg-black px-4 py-1.5 text-sm font-medium text-white hover:bg-gray-800"
                     >
-                        Mesiac
+                        <Plus size={16} />
+                        Pridať predmet
                     </button>
-                    <button
-                        onClick={() => setView("Týždeň")}
-                        className={`rounded px-4 py-1.5 text-sm font-medium transition ${view === "Týždeň" ? "bg-black text-white" : "text-gray-700 hover:bg-gray-50"}`}
-                    >
-                        Týždeň
-                    </button>
-                    <button
-                        onClick={() => setView("Deň")}
-                        className={`rounded px-4 py-1.5 text-sm font-medium transition ${view === "Deň" ? "bg-black text-white" : "text-gray-700 hover:bg-gray-50"}`}
-                    >
-                        Deň
-                    </button>
+                    <div className="flex rounded-md border border-gray-200 bg-white p-1 shadow-sm">
+                        <button
+                            onClick={() => setView("Mesiac")}
+                            className={`rounded px-4 py-1.5 text-sm font-medium transition ${view === "Mesiac" ? "bg-black text-white" : "text-gray-700 hover:bg-gray-50"}`}
+                        >
+                            Mesiac
+                        </button>
+                        <button
+                            onClick={() => setView("Týždeň")}
+                            className={`rounded px-4 py-1.5 text-sm font-medium transition ${view === "Týždeň" ? "bg-black text-white" : "text-gray-700 hover:bg-gray-50"}`}
+                        >
+                            Týždeň
+                        </button>
+                        <button
+                            onClick={() => setView("Deň")}
+                            className={`rounded px-4 py-1.5 text-sm font-medium transition ${view === "Deň" ? "bg-black text-white" : "text-gray-700 hover:bg-gray-50"}`}
+                        >
+                            Deň
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            {/* Calendar Grid */}
             <div className="grid grid-cols-[80px_1fr] overflow-auto flex-1">
-                {/* Header Row (Days) */}
-                <div className="sticky top-0 z-10 bg-white border-b border-gray-100"></div> {/* Top-left empty corner */}
+                <div className="sticky top-0 z-10 bg-white border-b border-gray-100"></div>
                 <div className="sticky top-0 z-10 grid grid-cols-7 border-b border-gray-100 bg-white">
                     {days.map((day) => (
                         <div key={day} className="py-4 text-center text-sm font-semibold text-gray-700 border-l border-gray-50 first:border-l-0">
@@ -64,7 +123,6 @@ export function Calendar() {
                     ))}
                 </div>
 
-                {/* Time Column + Grid Content */}
                 <div className="flex flex-col">
                     {hours.map((hour) => (
                         <div key={hour} className="h-28 border-b border-gray-100 flex items-center justify-center text-xs text-gray-500 font-medium">
@@ -86,117 +144,100 @@ export function Calendar() {
                         ))}
                     </div>
 
-                    {/* Events - Absolute Positioning or Grid placement */}
+                    {/* Events Mapping */}
+                    {schedule?.events.map((event) => {
+                        // Simple mapping logic: find column index based on day
+                        const dayIndex = days.indexOf(event.day); // 0-6
+                        if (dayIndex === -1) return null;
 
-                    {/* Tuesday - 7:00 */}
-                    <div className="col-start-2 row-start-1 p-1 h-28">
-                        <EventCard
-                            time="07:00 - 08:00"
-                            type="Prednáška"
-                            title="Diskrétna Matematika"
-                            color="sky"
-                            className="h-20" /* Occupy part of the slot */
-                        />
-                    </div>
+                        // Row mapping: simplified for demo. 
+                        // Assuming fixed slots matching the visual design. 
+                        // Real implementation would calculate top/height based on time.
+                        // For now, let's map specific hours to row indices 1-5
+                        const hourMap: Record<string, number> = { "07:00": 1, "08:00": 2, "09:00": 3, "10:00": 4, "11:00": 5 };
+                        const rowStart = hourMap[event.startTime] ?? 1;
 
-                    {/* Thursday - 7:00 */}
-                    <div className="col-start-4 row-start-1 p-1 h-28 flex gap-1">
-                        <EventCard
-                            time="07:00 - 8:00"
-                            type="Cvičenie"
-                            title="Matematická analýza"
-                            color="red"
-                            className="flex-1"
-                        />
-                    </div>
-
-                    {/* Friday - 7:00 */}
-                    <div className="col-start-5 row-start-1 p-1 h-28">
-                        <EventCard
-                            time="07:00 - 08:00"
-                            type="Prednáška"
-                            title="Matematická analýza"
-                            color="blue" // Design shows blue here
-                        />
-                    </div>
-
-                    {/* Thursday - 8:00 */}
-                    <div className="col-start-4 row-start-2 p-1 h-28">
-                        <EventCard
-                            time="08:00 - 9:00"
-                            type="Náhradne cvičenie"
-                            title="PPSP"
-                            color="purple"
-                            className="h-20"
-                        />
-                    </div>
-
-                    {/* Wednesday - 9:00 */}
-                    <div className="col-start-3 row-start-3 p-1 h-28">
-                        <EventCard
-                            time="09:00 - 10:00"
-                            type="Prednáška"
-                            title="Programovanie 4"
-                            color="sky"
-                            className="h-20"
-                        />
-                    </div>
-
-                    {/* Friday - 9:00 */}
-                    <div className="col-start-5 row-start-3 p-1 h-28">
-                        <EventCard
-                            time="09:00 - 10:00"
-                            type="Zápočet"
-                            title="Diskrétna Matematika"
-                            color="green"
-                            className="h-20"
-                        />
-                    </div>
-
-                    {/* Tuesday - 10:00 */}
-                    <div className="col-start-2 row-start-4 p-1 h-28">
-                        <EventCard
-                            time="09:00 - 9:00"
-                            type="Náhradne cvičenie"
-                            title="PPSP"
-                            color="purple"
-                            className="h-20"
-                        />
-                    </div>
-
-                    {/* Saturday - 10:00 */}
-                    <div className="col-start-6 row-start-4 p-1 h-28">
-                        <EventCard
-                            time="09:00 AM - 04:00 PM"
-                            type="Niles Miller"
-                            title="Storage"
-                            color="blue" // Looks darker blue in screenshot
-                            className="bg-[#3D6ABE]"
-                        />
-                    </div>
-
-                    {/* Tuesday - 11:00 (which is 5th row) */}
-                    <div className="col-start-2 row-start-5 p-1 h-28">
-                        <EventCard
-                            time="07:00 - 8:00"
-                            type="Cvičenie"
-                            title="Matematická analýza"
-                            color="red"
-                        />
-                    </div>
-
-                    {/* Wednesday - 11:00 - Wait in the PDF it is in the 3rd column (Streda), but it seems to be red */}
-                    <div className="col-start-3 row-start-5 p-1 h-28">
-                        <EventCard
-                            time="07:00 - 8:00"
-                            type="Cvičenie"
-                            title="Matematická analýza"
-                            color="red"
-                        />
-                    </div>
-
+                        return (
+                            <div
+                                key={event.id}
+                                className="p-1 h-28"
+                                style={{
+                                    gridColumnStart: dayIndex + 1 + 1, // +1 for time axis, +1 for 1-based index 
+                                    gridRowStart: rowStart
+                                }}
+                            >
+                                <EventCard
+                                    time={`${event.startTime} - ${event.endTime}`}
+                                    type={event.type}
+                                    title={event.title}
+                                    color={event.color as "blue" | "red" | "purple" | "green" | "emerald" | "sky"}
+                                    onDelete={() => handleDelete(event.id)}
+                                />
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
+
+            {/* Add Event Modal */}
+            {isModalOpen && (
+                <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm">
+                    <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-2xl">
+                        <div className="mb-4 flex items-center justify-between">
+                            <h3 className="text-xl font-bold">Nový predmet</h3>
+                            <button onClick={() => setIsModalOpen(false)} className="text-gray-500 hover:text-black">
+                                <X size={20} />
+                            </button>
+                        </div>
+
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700">Názov predmetu</label>
+                                <input ref={titleRef} required className="w-full rounded border p-2" placeholder="napr. Matematická analýza" />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700">Typ</label>
+                                <input ref={typeRef} required className="w-full rounded border p-2" placeholder="napr. Prednáška" />
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700">Deň</label>
+                                    <select ref={dayRef} className="w-full rounded border p-2">
+                                        {days.map(d => <option key={d} value={d}>{d}</option>)}
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700">Čas od</label>
+                                    <select ref={startRef} className="w-full rounded border p-2">
+                                        {hours.map(h => <option key={h} value={h}>{h}</option>)}
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700">Čas do</label>
+                                    <select ref={endRef} className="w-full rounded border p-2">
+                                        {hours.map(h => {
+                                            // Simple next hour logic
+                                            const nextHour = (parseInt(h) + 1) + ":00";
+                                            return <option key={h} value={nextHour}>{nextHour}</option>;
+                                        })}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div className="flex justify-end pt-2">
+                                <button
+                                    type="submit"
+                                    disabled={createEvent.isPending}
+                                    className="rounded bg-black px-4 py-2 text-white hover:bg-gray-800 disabled:opacity-50"
+                                >
+                                    {createEvent.isPending ? "Ukladám..." : "Pridať"}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 }
