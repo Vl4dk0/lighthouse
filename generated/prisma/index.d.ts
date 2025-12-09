@@ -18,6 +18,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  * 
  */
 export type Post = $Result.DefaultSelection<Prisma.$PostPayload>
+/**
+ * Model ScheduleItem
+ * 
+ */
+export type ScheduleItem = $Result.DefaultSelection<Prisma.$ScheduleItemPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -146,6 +151,16 @@ export class PrismaClient<
     * ```
     */
   get post(): Prisma.PostDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.scheduleItem`: Exposes CRUD operations for the **ScheduleItem** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ScheduleItems
+    * const scheduleItems = await prisma.scheduleItem.findMany()
+    * ```
+    */
+  get scheduleItem(): Prisma.ScheduleItemDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -587,7 +602,8 @@ export namespace Prisma {
 
 
   export const ModelName: {
-    Post: 'Post'
+    Post: 'Post',
+    ScheduleItem: 'ScheduleItem'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -606,7 +622,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "post"
+      modelProps: "post" | "scheduleItem"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -681,6 +697,80 @@ export namespace Prisma {
           count: {
             args: Prisma.PostCountArgs<ExtArgs>
             result: $Utils.Optional<PostCountAggregateOutputType> | number
+          }
+        }
+      }
+      ScheduleItem: {
+        payload: Prisma.$ScheduleItemPayload<ExtArgs>
+        fields: Prisma.ScheduleItemFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ScheduleItemFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduleItemPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ScheduleItemFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduleItemPayload>
+          }
+          findFirst: {
+            args: Prisma.ScheduleItemFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduleItemPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ScheduleItemFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduleItemPayload>
+          }
+          findMany: {
+            args: Prisma.ScheduleItemFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduleItemPayload>[]
+          }
+          create: {
+            args: Prisma.ScheduleItemCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduleItemPayload>
+          }
+          createMany: {
+            args: Prisma.ScheduleItemCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ScheduleItemCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduleItemPayload>[]
+          }
+          delete: {
+            args: Prisma.ScheduleItemDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduleItemPayload>
+          }
+          update: {
+            args: Prisma.ScheduleItemUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduleItemPayload>
+          }
+          deleteMany: {
+            args: Prisma.ScheduleItemDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ScheduleItemUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ScheduleItemUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduleItemPayload>[]
+          }
+          upsert: {
+            args: Prisma.ScheduleItemUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduleItemPayload>
+          }
+          aggregate: {
+            args: Prisma.ScheduleItemAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateScheduleItem>
+          }
+          groupBy: {
+            args: Prisma.ScheduleItemGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ScheduleItemGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ScheduleItemCountArgs<ExtArgs>
+            result: $Utils.Optional<ScheduleItemCountAggregateOutputType> | number
           }
         }
       }
@@ -781,6 +871,7 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     post?: PostOmit
+    scheduleItem?: ScheduleItemOmit
   }
 
   /* Types for Logging */
@@ -1876,6 +1967,1090 @@ export namespace Prisma {
 
 
   /**
+   * Model ScheduleItem
+   */
+
+  export type AggregateScheduleItem = {
+    _count: ScheduleItemCountAggregateOutputType | null
+    _min: ScheduleItemMinAggregateOutputType | null
+    _max: ScheduleItemMaxAggregateOutputType | null
+  }
+
+  export type ScheduleItemMinAggregateOutputType = {
+    id: string | null
+    category: string | null
+    courseName: string | null
+    courseCode: string | null
+    dayOfWeek: string | null
+    startTime: string | null
+    endTime: string | null
+    room: string | null
+    teacher: string | null
+    note: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ScheduleItemMaxAggregateOutputType = {
+    id: string | null
+    category: string | null
+    courseName: string | null
+    courseCode: string | null
+    dayOfWeek: string | null
+    startTime: string | null
+    endTime: string | null
+    room: string | null
+    teacher: string | null
+    note: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ScheduleItemCountAggregateOutputType = {
+    id: number
+    category: number
+    courseName: number
+    courseCode: number
+    dayOfWeek: number
+    startTime: number
+    endTime: number
+    room: number
+    teacher: number
+    note: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ScheduleItemMinAggregateInputType = {
+    id?: true
+    category?: true
+    courseName?: true
+    courseCode?: true
+    dayOfWeek?: true
+    startTime?: true
+    endTime?: true
+    room?: true
+    teacher?: true
+    note?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ScheduleItemMaxAggregateInputType = {
+    id?: true
+    category?: true
+    courseName?: true
+    courseCode?: true
+    dayOfWeek?: true
+    startTime?: true
+    endTime?: true
+    room?: true
+    teacher?: true
+    note?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ScheduleItemCountAggregateInputType = {
+    id?: true
+    category?: true
+    courseName?: true
+    courseCode?: true
+    dayOfWeek?: true
+    startTime?: true
+    endTime?: true
+    room?: true
+    teacher?: true
+    note?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ScheduleItemAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ScheduleItem to aggregate.
+     */
+    where?: ScheduleItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScheduleItems to fetch.
+     */
+    orderBy?: ScheduleItemOrderByWithRelationInput | ScheduleItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ScheduleItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScheduleItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScheduleItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ScheduleItems
+    **/
+    _count?: true | ScheduleItemCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ScheduleItemMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ScheduleItemMaxAggregateInputType
+  }
+
+  export type GetScheduleItemAggregateType<T extends ScheduleItemAggregateArgs> = {
+        [P in keyof T & keyof AggregateScheduleItem]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateScheduleItem[P]>
+      : GetScalarType<T[P], AggregateScheduleItem[P]>
+  }
+
+
+
+
+  export type ScheduleItemGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScheduleItemWhereInput
+    orderBy?: ScheduleItemOrderByWithAggregationInput | ScheduleItemOrderByWithAggregationInput[]
+    by: ScheduleItemScalarFieldEnum[] | ScheduleItemScalarFieldEnum
+    having?: ScheduleItemScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ScheduleItemCountAggregateInputType | true
+    _min?: ScheduleItemMinAggregateInputType
+    _max?: ScheduleItemMaxAggregateInputType
+  }
+
+  export type ScheduleItemGroupByOutputType = {
+    id: string
+    category: string
+    courseName: string
+    courseCode: string | null
+    dayOfWeek: string
+    startTime: string
+    endTime: string
+    room: string
+    teacher: string
+    note: string
+    createdAt: Date
+    updatedAt: Date
+    _count: ScheduleItemCountAggregateOutputType | null
+    _min: ScheduleItemMinAggregateOutputType | null
+    _max: ScheduleItemMaxAggregateOutputType | null
+  }
+
+  type GetScheduleItemGroupByPayload<T extends ScheduleItemGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ScheduleItemGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ScheduleItemGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ScheduleItemGroupByOutputType[P]>
+            : GetScalarType<T[P], ScheduleItemGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ScheduleItemSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    category?: boolean
+    courseName?: boolean
+    courseCode?: boolean
+    dayOfWeek?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    room?: boolean
+    teacher?: boolean
+    note?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["scheduleItem"]>
+
+  export type ScheduleItemSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    category?: boolean
+    courseName?: boolean
+    courseCode?: boolean
+    dayOfWeek?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    room?: boolean
+    teacher?: boolean
+    note?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["scheduleItem"]>
+
+  export type ScheduleItemSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    category?: boolean
+    courseName?: boolean
+    courseCode?: boolean
+    dayOfWeek?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    room?: boolean
+    teacher?: boolean
+    note?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["scheduleItem"]>
+
+  export type ScheduleItemSelectScalar = {
+    id?: boolean
+    category?: boolean
+    courseName?: boolean
+    courseCode?: boolean
+    dayOfWeek?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    room?: boolean
+    teacher?: boolean
+    note?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ScheduleItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "category" | "courseName" | "courseCode" | "dayOfWeek" | "startTime" | "endTime" | "room" | "teacher" | "note" | "createdAt" | "updatedAt", ExtArgs["result"]["scheduleItem"]>
+
+  export type $ScheduleItemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ScheduleItem"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      category: string
+      courseName: string
+      courseCode: string | null
+      dayOfWeek: string
+      startTime: string
+      endTime: string
+      room: string
+      teacher: string
+      note: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["scheduleItem"]>
+    composites: {}
+  }
+
+  type ScheduleItemGetPayload<S extends boolean | null | undefined | ScheduleItemDefaultArgs> = $Result.GetResult<Prisma.$ScheduleItemPayload, S>
+
+  type ScheduleItemCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ScheduleItemFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ScheduleItemCountAggregateInputType | true
+    }
+
+  export interface ScheduleItemDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ScheduleItem'], meta: { name: 'ScheduleItem' } }
+    /**
+     * Find zero or one ScheduleItem that matches the filter.
+     * @param {ScheduleItemFindUniqueArgs} args - Arguments to find a ScheduleItem
+     * @example
+     * // Get one ScheduleItem
+     * const scheduleItem = await prisma.scheduleItem.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ScheduleItemFindUniqueArgs>(args: SelectSubset<T, ScheduleItemFindUniqueArgs<ExtArgs>>): Prisma__ScheduleItemClient<$Result.GetResult<Prisma.$ScheduleItemPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ScheduleItem that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ScheduleItemFindUniqueOrThrowArgs} args - Arguments to find a ScheduleItem
+     * @example
+     * // Get one ScheduleItem
+     * const scheduleItem = await prisma.scheduleItem.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ScheduleItemFindUniqueOrThrowArgs>(args: SelectSubset<T, ScheduleItemFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ScheduleItemClient<$Result.GetResult<Prisma.$ScheduleItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ScheduleItem that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduleItemFindFirstArgs} args - Arguments to find a ScheduleItem
+     * @example
+     * // Get one ScheduleItem
+     * const scheduleItem = await prisma.scheduleItem.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ScheduleItemFindFirstArgs>(args?: SelectSubset<T, ScheduleItemFindFirstArgs<ExtArgs>>): Prisma__ScheduleItemClient<$Result.GetResult<Prisma.$ScheduleItemPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ScheduleItem that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduleItemFindFirstOrThrowArgs} args - Arguments to find a ScheduleItem
+     * @example
+     * // Get one ScheduleItem
+     * const scheduleItem = await prisma.scheduleItem.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ScheduleItemFindFirstOrThrowArgs>(args?: SelectSubset<T, ScheduleItemFindFirstOrThrowArgs<ExtArgs>>): Prisma__ScheduleItemClient<$Result.GetResult<Prisma.$ScheduleItemPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ScheduleItems that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduleItemFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ScheduleItems
+     * const scheduleItems = await prisma.scheduleItem.findMany()
+     * 
+     * // Get first 10 ScheduleItems
+     * const scheduleItems = await prisma.scheduleItem.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const scheduleItemWithIdOnly = await prisma.scheduleItem.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ScheduleItemFindManyArgs>(args?: SelectSubset<T, ScheduleItemFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScheduleItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ScheduleItem.
+     * @param {ScheduleItemCreateArgs} args - Arguments to create a ScheduleItem.
+     * @example
+     * // Create one ScheduleItem
+     * const ScheduleItem = await prisma.scheduleItem.create({
+     *   data: {
+     *     // ... data to create a ScheduleItem
+     *   }
+     * })
+     * 
+     */
+    create<T extends ScheduleItemCreateArgs>(args: SelectSubset<T, ScheduleItemCreateArgs<ExtArgs>>): Prisma__ScheduleItemClient<$Result.GetResult<Prisma.$ScheduleItemPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ScheduleItems.
+     * @param {ScheduleItemCreateManyArgs} args - Arguments to create many ScheduleItems.
+     * @example
+     * // Create many ScheduleItems
+     * const scheduleItem = await prisma.scheduleItem.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ScheduleItemCreateManyArgs>(args?: SelectSubset<T, ScheduleItemCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ScheduleItems and returns the data saved in the database.
+     * @param {ScheduleItemCreateManyAndReturnArgs} args - Arguments to create many ScheduleItems.
+     * @example
+     * // Create many ScheduleItems
+     * const scheduleItem = await prisma.scheduleItem.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ScheduleItems and only return the `id`
+     * const scheduleItemWithIdOnly = await prisma.scheduleItem.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ScheduleItemCreateManyAndReturnArgs>(args?: SelectSubset<T, ScheduleItemCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScheduleItemPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ScheduleItem.
+     * @param {ScheduleItemDeleteArgs} args - Arguments to delete one ScheduleItem.
+     * @example
+     * // Delete one ScheduleItem
+     * const ScheduleItem = await prisma.scheduleItem.delete({
+     *   where: {
+     *     // ... filter to delete one ScheduleItem
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ScheduleItemDeleteArgs>(args: SelectSubset<T, ScheduleItemDeleteArgs<ExtArgs>>): Prisma__ScheduleItemClient<$Result.GetResult<Prisma.$ScheduleItemPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ScheduleItem.
+     * @param {ScheduleItemUpdateArgs} args - Arguments to update one ScheduleItem.
+     * @example
+     * // Update one ScheduleItem
+     * const scheduleItem = await prisma.scheduleItem.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ScheduleItemUpdateArgs>(args: SelectSubset<T, ScheduleItemUpdateArgs<ExtArgs>>): Prisma__ScheduleItemClient<$Result.GetResult<Prisma.$ScheduleItemPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ScheduleItems.
+     * @param {ScheduleItemDeleteManyArgs} args - Arguments to filter ScheduleItems to delete.
+     * @example
+     * // Delete a few ScheduleItems
+     * const { count } = await prisma.scheduleItem.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ScheduleItemDeleteManyArgs>(args?: SelectSubset<T, ScheduleItemDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ScheduleItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduleItemUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ScheduleItems
+     * const scheduleItem = await prisma.scheduleItem.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ScheduleItemUpdateManyArgs>(args: SelectSubset<T, ScheduleItemUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ScheduleItems and returns the data updated in the database.
+     * @param {ScheduleItemUpdateManyAndReturnArgs} args - Arguments to update many ScheduleItems.
+     * @example
+     * // Update many ScheduleItems
+     * const scheduleItem = await prisma.scheduleItem.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ScheduleItems and only return the `id`
+     * const scheduleItemWithIdOnly = await prisma.scheduleItem.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ScheduleItemUpdateManyAndReturnArgs>(args: SelectSubset<T, ScheduleItemUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScheduleItemPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ScheduleItem.
+     * @param {ScheduleItemUpsertArgs} args - Arguments to update or create a ScheduleItem.
+     * @example
+     * // Update or create a ScheduleItem
+     * const scheduleItem = await prisma.scheduleItem.upsert({
+     *   create: {
+     *     // ... data to create a ScheduleItem
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ScheduleItem we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ScheduleItemUpsertArgs>(args: SelectSubset<T, ScheduleItemUpsertArgs<ExtArgs>>): Prisma__ScheduleItemClient<$Result.GetResult<Prisma.$ScheduleItemPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ScheduleItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduleItemCountArgs} args - Arguments to filter ScheduleItems to count.
+     * @example
+     * // Count the number of ScheduleItems
+     * const count = await prisma.scheduleItem.count({
+     *   where: {
+     *     // ... the filter for the ScheduleItems we want to count
+     *   }
+     * })
+    **/
+    count<T extends ScheduleItemCountArgs>(
+      args?: Subset<T, ScheduleItemCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ScheduleItemCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ScheduleItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduleItemAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ScheduleItemAggregateArgs>(args: Subset<T, ScheduleItemAggregateArgs>): Prisma.PrismaPromise<GetScheduleItemAggregateType<T>>
+
+    /**
+     * Group by ScheduleItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduleItemGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ScheduleItemGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ScheduleItemGroupByArgs['orderBy'] }
+        : { orderBy?: ScheduleItemGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ScheduleItemGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetScheduleItemGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ScheduleItem model
+   */
+  readonly fields: ScheduleItemFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ScheduleItem.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ScheduleItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ScheduleItem model
+   */
+  interface ScheduleItemFieldRefs {
+    readonly id: FieldRef<"ScheduleItem", 'String'>
+    readonly category: FieldRef<"ScheduleItem", 'String'>
+    readonly courseName: FieldRef<"ScheduleItem", 'String'>
+    readonly courseCode: FieldRef<"ScheduleItem", 'String'>
+    readonly dayOfWeek: FieldRef<"ScheduleItem", 'String'>
+    readonly startTime: FieldRef<"ScheduleItem", 'String'>
+    readonly endTime: FieldRef<"ScheduleItem", 'String'>
+    readonly room: FieldRef<"ScheduleItem", 'String'>
+    readonly teacher: FieldRef<"ScheduleItem", 'String'>
+    readonly note: FieldRef<"ScheduleItem", 'String'>
+    readonly createdAt: FieldRef<"ScheduleItem", 'DateTime'>
+    readonly updatedAt: FieldRef<"ScheduleItem", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ScheduleItem findUnique
+   */
+  export type ScheduleItemFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduleItem
+     */
+    select?: ScheduleItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduleItem
+     */
+    omit?: ScheduleItemOmit<ExtArgs> | null
+    /**
+     * Filter, which ScheduleItem to fetch.
+     */
+    where: ScheduleItemWhereUniqueInput
+  }
+
+  /**
+   * ScheduleItem findUniqueOrThrow
+   */
+  export type ScheduleItemFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduleItem
+     */
+    select?: ScheduleItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduleItem
+     */
+    omit?: ScheduleItemOmit<ExtArgs> | null
+    /**
+     * Filter, which ScheduleItem to fetch.
+     */
+    where: ScheduleItemWhereUniqueInput
+  }
+
+  /**
+   * ScheduleItem findFirst
+   */
+  export type ScheduleItemFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduleItem
+     */
+    select?: ScheduleItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduleItem
+     */
+    omit?: ScheduleItemOmit<ExtArgs> | null
+    /**
+     * Filter, which ScheduleItem to fetch.
+     */
+    where?: ScheduleItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScheduleItems to fetch.
+     */
+    orderBy?: ScheduleItemOrderByWithRelationInput | ScheduleItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ScheduleItems.
+     */
+    cursor?: ScheduleItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScheduleItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScheduleItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ScheduleItems.
+     */
+    distinct?: ScheduleItemScalarFieldEnum | ScheduleItemScalarFieldEnum[]
+  }
+
+  /**
+   * ScheduleItem findFirstOrThrow
+   */
+  export type ScheduleItemFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduleItem
+     */
+    select?: ScheduleItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduleItem
+     */
+    omit?: ScheduleItemOmit<ExtArgs> | null
+    /**
+     * Filter, which ScheduleItem to fetch.
+     */
+    where?: ScheduleItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScheduleItems to fetch.
+     */
+    orderBy?: ScheduleItemOrderByWithRelationInput | ScheduleItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ScheduleItems.
+     */
+    cursor?: ScheduleItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScheduleItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScheduleItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ScheduleItems.
+     */
+    distinct?: ScheduleItemScalarFieldEnum | ScheduleItemScalarFieldEnum[]
+  }
+
+  /**
+   * ScheduleItem findMany
+   */
+  export type ScheduleItemFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduleItem
+     */
+    select?: ScheduleItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduleItem
+     */
+    omit?: ScheduleItemOmit<ExtArgs> | null
+    /**
+     * Filter, which ScheduleItems to fetch.
+     */
+    where?: ScheduleItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScheduleItems to fetch.
+     */
+    orderBy?: ScheduleItemOrderByWithRelationInput | ScheduleItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ScheduleItems.
+     */
+    cursor?: ScheduleItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScheduleItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScheduleItems.
+     */
+    skip?: number
+    distinct?: ScheduleItemScalarFieldEnum | ScheduleItemScalarFieldEnum[]
+  }
+
+  /**
+   * ScheduleItem create
+   */
+  export type ScheduleItemCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduleItem
+     */
+    select?: ScheduleItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduleItem
+     */
+    omit?: ScheduleItemOmit<ExtArgs> | null
+    /**
+     * The data needed to create a ScheduleItem.
+     */
+    data: XOR<ScheduleItemCreateInput, ScheduleItemUncheckedCreateInput>
+  }
+
+  /**
+   * ScheduleItem createMany
+   */
+  export type ScheduleItemCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ScheduleItems.
+     */
+    data: ScheduleItemCreateManyInput | ScheduleItemCreateManyInput[]
+  }
+
+  /**
+   * ScheduleItem createManyAndReturn
+   */
+  export type ScheduleItemCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduleItem
+     */
+    select?: ScheduleItemSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduleItem
+     */
+    omit?: ScheduleItemOmit<ExtArgs> | null
+    /**
+     * The data used to create many ScheduleItems.
+     */
+    data: ScheduleItemCreateManyInput | ScheduleItemCreateManyInput[]
+  }
+
+  /**
+   * ScheduleItem update
+   */
+  export type ScheduleItemUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduleItem
+     */
+    select?: ScheduleItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduleItem
+     */
+    omit?: ScheduleItemOmit<ExtArgs> | null
+    /**
+     * The data needed to update a ScheduleItem.
+     */
+    data: XOR<ScheduleItemUpdateInput, ScheduleItemUncheckedUpdateInput>
+    /**
+     * Choose, which ScheduleItem to update.
+     */
+    where: ScheduleItemWhereUniqueInput
+  }
+
+  /**
+   * ScheduleItem updateMany
+   */
+  export type ScheduleItemUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ScheduleItems.
+     */
+    data: XOR<ScheduleItemUpdateManyMutationInput, ScheduleItemUncheckedUpdateManyInput>
+    /**
+     * Filter which ScheduleItems to update
+     */
+    where?: ScheduleItemWhereInput
+    /**
+     * Limit how many ScheduleItems to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ScheduleItem updateManyAndReturn
+   */
+  export type ScheduleItemUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduleItem
+     */
+    select?: ScheduleItemSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduleItem
+     */
+    omit?: ScheduleItemOmit<ExtArgs> | null
+    /**
+     * The data used to update ScheduleItems.
+     */
+    data: XOR<ScheduleItemUpdateManyMutationInput, ScheduleItemUncheckedUpdateManyInput>
+    /**
+     * Filter which ScheduleItems to update
+     */
+    where?: ScheduleItemWhereInput
+    /**
+     * Limit how many ScheduleItems to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ScheduleItem upsert
+   */
+  export type ScheduleItemUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduleItem
+     */
+    select?: ScheduleItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduleItem
+     */
+    omit?: ScheduleItemOmit<ExtArgs> | null
+    /**
+     * The filter to search for the ScheduleItem to update in case it exists.
+     */
+    where: ScheduleItemWhereUniqueInput
+    /**
+     * In case the ScheduleItem found by the `where` argument doesn't exist, create a new ScheduleItem with this data.
+     */
+    create: XOR<ScheduleItemCreateInput, ScheduleItemUncheckedCreateInput>
+    /**
+     * In case the ScheduleItem was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ScheduleItemUpdateInput, ScheduleItemUncheckedUpdateInput>
+  }
+
+  /**
+   * ScheduleItem delete
+   */
+  export type ScheduleItemDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduleItem
+     */
+    select?: ScheduleItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduleItem
+     */
+    omit?: ScheduleItemOmit<ExtArgs> | null
+    /**
+     * Filter which ScheduleItem to delete.
+     */
+    where: ScheduleItemWhereUniqueInput
+  }
+
+  /**
+   * ScheduleItem deleteMany
+   */
+  export type ScheduleItemDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ScheduleItems to delete
+     */
+    where?: ScheduleItemWhereInput
+    /**
+     * Limit how many ScheduleItems to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ScheduleItem without action
+   */
+  export type ScheduleItemDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduleItem
+     */
+    select?: ScheduleItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduleItem
+     */
+    omit?: ScheduleItemOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -1896,12 +3071,38 @@ export namespace Prisma {
   export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof PostScalarFieldEnum]
 
 
+  export const ScheduleItemScalarFieldEnum: {
+    id: 'id',
+    category: 'category',
+    courseName: 'courseName',
+    courseCode: 'courseCode',
+    dayOfWeek: 'dayOfWeek',
+    startTime: 'startTime',
+    endTime: 'endTime',
+    room: 'room',
+    teacher: 'teacher',
+    note: 'note',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ScheduleItemScalarFieldEnum = (typeof ScheduleItemScalarFieldEnum)[keyof typeof ScheduleItemScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
   };
 
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
   /**
@@ -1989,6 +3190,93 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Post"> | Date | string
   }
 
+  export type ScheduleItemWhereInput = {
+    AND?: ScheduleItemWhereInput | ScheduleItemWhereInput[]
+    OR?: ScheduleItemWhereInput[]
+    NOT?: ScheduleItemWhereInput | ScheduleItemWhereInput[]
+    id?: StringFilter<"ScheduleItem"> | string
+    category?: StringFilter<"ScheduleItem"> | string
+    courseName?: StringFilter<"ScheduleItem"> | string
+    courseCode?: StringNullableFilter<"ScheduleItem"> | string | null
+    dayOfWeek?: StringFilter<"ScheduleItem"> | string
+    startTime?: StringFilter<"ScheduleItem"> | string
+    endTime?: StringFilter<"ScheduleItem"> | string
+    room?: StringFilter<"ScheduleItem"> | string
+    teacher?: StringFilter<"ScheduleItem"> | string
+    note?: StringFilter<"ScheduleItem"> | string
+    createdAt?: DateTimeFilter<"ScheduleItem"> | Date | string
+    updatedAt?: DateTimeFilter<"ScheduleItem"> | Date | string
+  }
+
+  export type ScheduleItemOrderByWithRelationInput = {
+    id?: SortOrder
+    category?: SortOrder
+    courseName?: SortOrder
+    courseCode?: SortOrderInput | SortOrder
+    dayOfWeek?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    room?: SortOrder
+    teacher?: SortOrder
+    note?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ScheduleItemWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ScheduleItemWhereInput | ScheduleItemWhereInput[]
+    OR?: ScheduleItemWhereInput[]
+    NOT?: ScheduleItemWhereInput | ScheduleItemWhereInput[]
+    category?: StringFilter<"ScheduleItem"> | string
+    courseName?: StringFilter<"ScheduleItem"> | string
+    courseCode?: StringNullableFilter<"ScheduleItem"> | string | null
+    dayOfWeek?: StringFilter<"ScheduleItem"> | string
+    startTime?: StringFilter<"ScheduleItem"> | string
+    endTime?: StringFilter<"ScheduleItem"> | string
+    room?: StringFilter<"ScheduleItem"> | string
+    teacher?: StringFilter<"ScheduleItem"> | string
+    note?: StringFilter<"ScheduleItem"> | string
+    createdAt?: DateTimeFilter<"ScheduleItem"> | Date | string
+    updatedAt?: DateTimeFilter<"ScheduleItem"> | Date | string
+  }, "id">
+
+  export type ScheduleItemOrderByWithAggregationInput = {
+    id?: SortOrder
+    category?: SortOrder
+    courseName?: SortOrder
+    courseCode?: SortOrderInput | SortOrder
+    dayOfWeek?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    room?: SortOrder
+    teacher?: SortOrder
+    note?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ScheduleItemCountOrderByAggregateInput
+    _max?: ScheduleItemMaxOrderByAggregateInput
+    _min?: ScheduleItemMinOrderByAggregateInput
+  }
+
+  export type ScheduleItemScalarWhereWithAggregatesInput = {
+    AND?: ScheduleItemScalarWhereWithAggregatesInput | ScheduleItemScalarWhereWithAggregatesInput[]
+    OR?: ScheduleItemScalarWhereWithAggregatesInput[]
+    NOT?: ScheduleItemScalarWhereWithAggregatesInput | ScheduleItemScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ScheduleItem"> | string
+    category?: StringWithAggregatesFilter<"ScheduleItem"> | string
+    courseName?: StringWithAggregatesFilter<"ScheduleItem"> | string
+    courseCode?: StringNullableWithAggregatesFilter<"ScheduleItem"> | string | null
+    dayOfWeek?: StringWithAggregatesFilter<"ScheduleItem"> | string
+    startTime?: StringWithAggregatesFilter<"ScheduleItem"> | string
+    endTime?: StringWithAggregatesFilter<"ScheduleItem"> | string
+    room?: StringWithAggregatesFilter<"ScheduleItem"> | string
+    teacher?: StringWithAggregatesFilter<"ScheduleItem"> | string
+    note?: StringWithAggregatesFilter<"ScheduleItem"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ScheduleItem"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ScheduleItem"> | Date | string
+  }
+
   export type PostCreateInput = {
     name: string
     createdAt?: Date | string
@@ -2031,6 +3319,111 @@ export namespace Prisma {
   export type PostUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScheduleItemCreateInput = {
+    id: string
+    category: string
+    courseName: string
+    courseCode?: string | null
+    dayOfWeek: string
+    startTime: string
+    endTime: string
+    room: string
+    teacher: string
+    note: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScheduleItemUncheckedCreateInput = {
+    id: string
+    category: string
+    courseName: string
+    courseCode?: string | null
+    dayOfWeek: string
+    startTime: string
+    endTime: string
+    room: string
+    teacher: string
+    note: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScheduleItemUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    courseName?: StringFieldUpdateOperationsInput | string
+    courseCode?: NullableStringFieldUpdateOperationsInput | string | null
+    dayOfWeek?: StringFieldUpdateOperationsInput | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    room?: StringFieldUpdateOperationsInput | string
+    teacher?: StringFieldUpdateOperationsInput | string
+    note?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScheduleItemUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    courseName?: StringFieldUpdateOperationsInput | string
+    courseCode?: NullableStringFieldUpdateOperationsInput | string | null
+    dayOfWeek?: StringFieldUpdateOperationsInput | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    room?: StringFieldUpdateOperationsInput | string
+    teacher?: StringFieldUpdateOperationsInput | string
+    note?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScheduleItemCreateManyInput = {
+    id: string
+    category: string
+    courseName: string
+    courseCode?: string | null
+    dayOfWeek: string
+    startTime: string
+    endTime: string
+    room: string
+    teacher: string
+    note: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScheduleItemUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    courseName?: StringFieldUpdateOperationsInput | string
+    courseCode?: NullableStringFieldUpdateOperationsInput | string | null
+    dayOfWeek?: StringFieldUpdateOperationsInput | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    room?: StringFieldUpdateOperationsInput | string
+    teacher?: StringFieldUpdateOperationsInput | string
+    note?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScheduleItemUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    courseName?: StringFieldUpdateOperationsInput | string
+    courseCode?: NullableStringFieldUpdateOperationsInput | string | null
+    dayOfWeek?: StringFieldUpdateOperationsInput | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    room?: StringFieldUpdateOperationsInput | string
+    teacher?: StringFieldUpdateOperationsInput | string
+    note?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -2147,6 +3540,87 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
+  export type ScheduleItemCountOrderByAggregateInput = {
+    id?: SortOrder
+    category?: SortOrder
+    courseName?: SortOrder
+    courseCode?: SortOrder
+    dayOfWeek?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    room?: SortOrder
+    teacher?: SortOrder
+    note?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ScheduleItemMaxOrderByAggregateInput = {
+    id?: SortOrder
+    category?: SortOrder
+    courseName?: SortOrder
+    courseCode?: SortOrder
+    dayOfWeek?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    room?: SortOrder
+    teacher?: SortOrder
+    note?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ScheduleItemMinOrderByAggregateInput = {
+    id?: SortOrder
+    category?: SortOrder
+    courseName?: SortOrder
+    courseCode?: SortOrder
+    dayOfWeek?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    room?: SortOrder
+    teacher?: SortOrder
+    note?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -2161,6 +3635,10 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -2255,6 +3733,48 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
 
