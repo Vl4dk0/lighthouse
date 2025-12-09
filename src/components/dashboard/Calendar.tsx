@@ -5,6 +5,7 @@ import { EventCard } from "./EventCard";
 import { ScheduleSearchModal } from "../schedule/ScheduleSearchModal";
 import { api } from "~/trpc/react";
 import { Plus, X, Search } from "lucide-react";
+import type { ScheduleItem } from "~/server/datasources/types";
 
 interface CalendarProps {
   username: string;
@@ -29,7 +30,6 @@ export function Calendar({ username }: CalendarProps) {
   const createEvent = api.schedule.addEvent.useMutation({
     onSuccess: async () => {
       await utils.schedule.getCurrent.invalidate();
-      setIsModalOpen(false);
     },
   });
 
@@ -48,7 +48,7 @@ export function Calendar({ username }: CalendarProps) {
   const mapScheduleItemToEvent = (item: any, scheduleId: string) => {
     const dayMapping: Record<string, string> = {
       Po: "Pondelok",
-      Ut: "Utorak",
+      Ut: "Utorok",
       St: "Streda",
       Št: "Štvrtok",
       Pi: "Piatok",
@@ -73,30 +73,35 @@ export function Calendar({ username }: CalendarProps) {
   };
 
   const handleAddScheduleItem = (item: any) => {
-    if (!schedule) return;
+    if (!schedule) return null;
 
-    const eventData = mapScheduleItemToEvent(item, schedule.id);
-    createEvent.mutate({
+    return {
       scheduleId: schedule.id,
-      ...eventData,
-    });
-    setIsSearchModalOpen(false);
+      ...mapScheduleItemToEvent(item, schedule.id),
+    };
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!schedule) return;
 
-    createEvent.mutate({
-      scheduleId: schedule.id,
-      title: titleRef.current?.value ?? "",
-      type: typeRef.current?.value ?? "",
-      day: dayRef.current?.value ?? "Pondelok",
-      startTime: startRef.current?.value ?? "",
-      endTime: endRef.current?.value ?? "",
-      color: "sky", // Default for now
-      location: "Unknown",
-    });
+    createEvent.mutate(
+      {
+        scheduleId: schedule.id,
+        title: titleRef.current?.value ?? "",
+        type: typeRef.current?.value ?? "",
+        day: dayRef.current?.value ?? "Pondelok",
+        startTime: startRef.current?.value ?? "",
+        endTime: endRef.current?.value ?? "",
+        color: "sky", // Default for now
+        location: "Unknown",
+      },
+      {
+        onSuccess: () => {
+          setIsModalOpen(false);
+        },
+      },
+    );
   };
 
   const hours = ["7:00", "8:00", "9:00", "10:00", "11:00"];
@@ -358,6 +363,7 @@ export function Calendar({ username }: CalendarProps) {
         isOpen={isSearchModalOpen}
         onClose={() => setIsSearchModalOpen(false)}
         onAddItem={handleAddScheduleItem}
+        createEvent={createEvent}
       />
     </div>
   );
