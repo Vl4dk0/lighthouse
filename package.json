@@ -27,6 +27,8 @@
     "@trpc/client": "^11.0.0",
     "@trpc/react-query": "^11.0.0",
     "@trpc/server": "^11.0.0",
+    "@types/cheerio": "^1.0.0",
+    "cheerio": "^1.1.2",
     "lucide-react": "^0.556.0",
     "next": "^15.2.3",
     "react": "^19.0.0",
