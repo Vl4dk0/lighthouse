@@ -28,7 +28,7 @@ function ScheduleItemSubCard({
   onAdd: (item: ScheduleItem) => any;
 }) {
   const utils = api.useUtils();
-  const createEvent = api.schedule.create.useMutation({
+  const createEvent = api.schedule.addEvent.useMutation({
     onSuccess: () => {
       utils.schedule.invalidate();
     },
