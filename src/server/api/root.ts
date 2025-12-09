@@ -1,4 +1,5 @@
-// postRouter removed
+import { postRouter } from "~/server/api/routers/post";
+import { scheduleItemRouter } from "~/server/api/routers/scheduleItem";
 import { scheduleRouter } from "~/server/api/routers/schedule";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 
@@ -8,6 +9,8 @@ import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
+  post: postRouter,
+  scheduleItem: scheduleItemRouter,
   schedule: scheduleRouter,
 });
 

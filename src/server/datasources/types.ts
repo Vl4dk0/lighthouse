@@ -4,8 +4,8 @@ export const ScheduleItemSchema = z.object({
   id: z.string(),
   category: z.string(), // e.g., "1-INF", "A-buAN"
   courseName: z.string(),
-  courseCode: z.string().optional(),
-  dayOfWeek: z.enum(["Po", "Ut", "St", "Št", "Pi"]),
+  courseCode: z.string().optional().nullable(),
+  dayOfWeek: z.string(), // z.enum(["Po", "Ut", "St", "Št", "Pi"]),
   startTime: z.string(),
   endTime: z.string(),
   room: z.string(),
