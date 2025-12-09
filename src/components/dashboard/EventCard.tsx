@@ -1,44 +1,50 @@
 import { twMerge } from "tailwind-merge";
 
+import { Trash2 } from "lucide-react";
+
 interface EventCardProps {
-    title: string;
-    type: string;
     time: string;
+    type: string;
+    title: string;
     color: "blue" | "red" | "purple" | "green" | "emerald" | "sky";
     className?: string;
-    fullDetails?: boolean;
+    onDelete?: () => void;
 }
 
-export function EventCard({ title, type, time, color, className, fullDetails }: EventCardProps) {
+export function EventCard({ time, type, title, color, className, onDelete }: EventCardProps) {
     const colorStyles = {
-        blue: "bg-[#71A5DE] text-white", // Light blue like Disc math
-        red: "bg-[#8E3A32] text-white", // Dark red like Mat analyza
-        purple: "bg-[#C667EA] text-white", // Purple like PPSP
-        green: "bg-[#51B583] text-white", // Green like Započet Disco
-        emerald: "bg-emerald-500 text-white", // Fallback
-        sky: "bg-[#8BCDEA] text-white", // Light blue like Prog 4
+        blue: "bg-blue-100/50 border-l-4 border-blue-500 text-blue-900",
+        red: "bg-red-100/50 border-l-4 border-red-500 text-red-900",
+        purple: "bg-purple-100/50 border-l-4 border-purple-500 text-purple-900",
+        green: "bg-green-100/50 border-l-4 border-green-500 text-green-900",
+        emerald: "bg-emerald-100/50 border-l-4 border-emerald-500 text-emerald-900",
+        sky: "bg-sky-100/50 border-l-4 border-sky-500 text-sky-900",
     };
 
     return (
-        <div
-            className={twMerge(
-                "flex flex-col rounded-md p-2 text-xs font-medium shadow-sm transition hover:brightness-110 cursor-pointer h-full justify-center",
-                colorStyles[color],
-                className
+        <div className={twMerge(
+            "rounded-md p-2 text-xs font-medium h-full flex flex-col justify-between group relative transition-colors hover:shadow-sm",
+            colorStyles[color],
+            className
+        )}>
+            {onDelete && (
+                <button
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onDelete();
+                    }}
+                    className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 p-1 rounded-full bg-white/50 hover:bg-white text-red-500 transition-all"
+                >
+                    <Trash2 size={14} />
+                </button>
             )}
-        >
-            <div className="flex justify-between items-start">
-                <span className="opacity-90">{time}</span>
-            </div>
-            <div className="mt-1 font-bold leading-tight">{type}</div>
-            <div className="leading-tight">{title}</div>
-
-            {fullDetails && (
-                <div className="mt-2 pt-2 border-t border-white/20">
-                    <div>Niles Miller</div>
-                    <div>Storage</div>
+            <div>
+                <div className="flex justify-between items-start">
+                    <span className="opacity-75 text-[10px] uppercase tracking-wider">{type}</span>
                 </div>
-            )}
+                <div className="mt-1 font-bold leading-tight">{type}</div>
+                <div className="leading-tight">{title}</div>
+            </div>
         </div>
     );
 }

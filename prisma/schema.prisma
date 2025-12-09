@@ -11,11 +11,34 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
+model User {
+    id        String     @id @default(uuid())
     name      String
+    email     String     @unique
+    schedules Schedule[]
+}
+
+model Schedule {
+    id        String   @id @default(uuid())
+    name      String
+    isCurrent Boolean  @default(false)
+    userId    String
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    events    Event[]
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+}
 
-    @@index([name])
+model Event {
+    id         String   @id @default(uuid())
+    scheduleId String
+    schedule   Schedule @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
+    title      String
+    type       String
+    day        String
+    startTime  String
+    endTime    String
+    location   String?
+    teacher    String?
+    color      String
 }
