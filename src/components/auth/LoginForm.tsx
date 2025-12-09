@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { LighthouseIcon } from "~/components/ui/LighthouseIcon";
 
 interface LoginFormProps {
   onLogin: (email: string) => void;
@@ -20,11 +21,12 @@ export function LoginForm({ onLogin }: LoginFormProps) {
 
   return (
     <div className="flex min-h-screen w-full flex-col items-center justify-center bg-white p-4">
-      <div className="grid w-full max-w-4xl grid-cols-1 items-center gap-12 md:grid-cols-2">
+      <div className="grid w-full max-w-4xl grid-cols-1 items-center gap-12 lg:grid-cols-2">
         {/* Left Side - Form */}
         <div className="w-full max-w-sm">
           <h1 className="mb-12 text-3xl font-normal text-slate-800">
-            Lighthouse <span className="ml-2 text-2xl">⛯</span>
+            Lighthouse{" "}
+            <LighthouseIcon className="ml-2" size={32} color="black" />
           </h1>
 
           <form onSubmit={handleSubmit} className="space-y-6">
