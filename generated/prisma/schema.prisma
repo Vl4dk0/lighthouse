@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id @default(uuid())
+  name      String
+  email     String     @unique
+  schedules Schedule[]
+}
+
+model Schedule {
+  id        String   @id @default(uuid())
+  name      String
+  isCurrent Boolean  @default(false)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  events    Event[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Event {
+  id         String   @id @default(uuid())
+  scheduleId String
+  schedule   Schedule @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
+  title      String
+  type       String
+  day        String
+  startTime  String
+  endTime    String
+  location   String?
+  teacher    String?
+  color      String
+}
+
+model ScheduleItem {
+  id         String   @id
+  category   String
+  courseName String
+  courseCode String?
+  dayOfWeek  String // "Po", "Ut", "St", "Št", "Pi"
+  startTime  String
+  endTime    String
+  room       String
+  teacher    String
+  note       String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([dayOfWeek])
+  @@index([courseName])
+  @@index([teacher])
+}
